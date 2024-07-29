@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SmallminecraftApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SmallminecraftApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SmallminecraftApplication.class, args);
+    }
 
 }
