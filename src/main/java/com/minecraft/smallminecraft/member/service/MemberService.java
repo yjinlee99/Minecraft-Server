@@ -7,12 +7,14 @@ import com.minecraft.smallminecraft.member.dtos.PwRequestDTO;
 import com.minecraft.smallminecraft.member.dtos.SetPasswordDTO;
 import com.minecraft.smallminecraft.member.entity.Member;
 import com.minecraft.smallminecraft.member.repository.MemberRepository;
+import com.minecraft.smallminecraft.response.ErrorResponse;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.ErrorResponse;
+
 
 @Service
 @Slf4j
