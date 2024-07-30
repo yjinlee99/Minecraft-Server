@@ -1,6 +1,7 @@
 package com.minecraft.smallminecraft.member.controller;
 
 
+import com.minecraft.smallminecraft.member.dtos.IDRequestDTO;
 import com.minecraft.smallminecraft.member.dtos.JoinDTO;
 import com.minecraft.smallminecraft.member.dtos.PwRequestDTO;
 import com.minecraft.smallminecraft.member.dtos.SetPasswordDTO;
@@ -26,7 +27,7 @@ public class MemberController {
     /*
      * 회원 가입
      */
-    @PostMapping("/v2/join")
+    @PostMapping("/v1/join")
     public ResponseEntity<Object> join(@Valid @RequestBody JoinDTO dto) {
         return memberService.join(dto);
     }
@@ -34,9 +35,14 @@ public class MemberController {
     /*
      * 비밀번호 찾기
      */
-    @PostMapping("/v1/password")
+    @PostMapping("/v1/find_password")
     public ResponseEntity<Object> findPassword(@Valid @RequestBody PwRequestDTO dto) {
         return memberService.findPW(dto);
+    }
+
+    @PostMapping("/v1/find_username")
+    public ResponseEntity<Object> findUsername(@Valid @RequestBody IDRequestDTO dto) {
+        return memberService.findUsername(dto);
     }
 
     /*

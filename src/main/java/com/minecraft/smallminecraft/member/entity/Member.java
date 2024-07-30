@@ -30,8 +30,6 @@ public class Member {
 
     private String role;
 
-    private String ip;
-
     @Email
     private String email;
 

@@ -1,10 +1,7 @@
 package com.minecraft.smallminecraft.member.service;
 
 
-import com.minecraft.smallminecraft.member.dtos.JoinDTO;
-import com.minecraft.smallminecraft.member.dtos.MailDTO;
-import com.minecraft.smallminecraft.member.dtos.PwRequestDTO;
-import com.minecraft.smallminecraft.member.dtos.SetPasswordDTO;
+import com.minecraft.smallminecraft.member.dtos.*;
 import com.minecraft.smallminecraft.member.entity.Member;
 import com.minecraft.smallminecraft.member.repository.MemberRepository;
 import com.minecraft.smallminecraft.response.ErrorResponse;
@@ -47,7 +44,6 @@ public class MemberService {
         Member joinMember = new Member();
         joinMember.setUsername(dto.getUsername());
         joinMember.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-        joinMember.setIp(dto.getIp());
         joinMember.setEmail(dto.getEmail());
         joinMember.setRole("user");
 
@@ -101,5 +97,14 @@ public class MemberService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("비밀번호가 틀렸습니다."));
         }
+    }
+
+    public ResponseEntity<Object> findUsername(IDRequestDTO dto) {
+        Member member = memberRepository.findByEmail(dto.getEmail());
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("존재하지 않는 회원입니다."));
+        }
+        return null;
     }
 }
