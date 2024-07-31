@@ -99,12 +99,18 @@ public class MemberService {
         }
     }
 
+    /*
+    * 아이디 찾기
+    */
     public ResponseEntity<Object> findUsername(IDRequestDTO dto) {
         Member member = memberRepository.findByEmail(dto.getEmail());
         if (member == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse("존재하지 않는 회원입니다."));
         }
-        return null;
+        IDResponseDTO responseDTO = new IDResponseDTO();
+        responseDTO.setUsername(member.getUsername());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(responseDTO);
     }
 }

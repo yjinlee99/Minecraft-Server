@@ -1,7 +1,6 @@
 package com.minecraft.smallminecraft.member.entity;
 
 
-import com.minecraft.smallminecraft.server.entity.Server;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Data
@@ -33,6 +32,4 @@ public class Member {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Server> servers = new ArrayList<>();
 }
