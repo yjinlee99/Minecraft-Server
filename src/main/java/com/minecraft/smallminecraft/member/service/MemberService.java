@@ -29,7 +29,7 @@ public class MemberService {
 
     /*
      * 회원가입
-     * 이미 존재하는 아이디면 404 전달
+     * 이미 존재하는 아이디면 400 전달
      * 성공하면 200 전달
      */
     public ResponseEntity<Object> join(JoinDTO dto) {
@@ -57,11 +57,13 @@ public class MemberService {
 
     /*
      * 비밀번호 찾기
+     * 존재하지 않는 아이디면 400전달
+     * 존재한다면 회원정보에 있는 이메일로 임시 비밀번호 전달
      */
     public ResponseEntity<Object> findPW(PwRequestDTO dto) {
         Member member = memberRepository.findByUsername(dto.getUsername());
         if (member == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("존재하지 않는 아이디입니다."));
         } else {
             return sendEmail(dto, member.getEmail());
@@ -80,12 +82,15 @@ public class MemberService {
 
     /*
      * 비밀번호 변경
+     * 존재하지 않는 회원이면 400전달
+     * 기존 비밀번호와 일치하지 않으면 400전달
+     * 비밀번호 변경 완료하면 200전달
      */
     @Transactional
     public ResponseEntity<Object> setPassword(SetPasswordDTO dto, String username) {
         Member member = memberRepository.findByUsername(username);
         if (member == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("존재하지 않는 회원입니다."));
         }
         if (bCryptPasswordEncoder.matches(dto.getPassword(), member.getPassword())) {
@@ -101,11 +106,13 @@ public class MemberService {
 
     /*
     * 아이디 찾기
+    * 존재하지 않는 회원이면 400전달
+    * 존재하면 200과 함께 아이디 전달
     */
     public ResponseEntity<Object> findUsername(IDRequestDTO dto) {
         Member member = memberRepository.findByEmail(dto.getEmail());
         if (member == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("존재하지 않는 회원입니다."));
         }
         IDResponseDTO responseDTO = new IDResponseDTO();

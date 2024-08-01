@@ -40,6 +40,9 @@ public class MemberController {
         return memberService.findPW(dto);
     }
 
+    /*
+    * 아이디 찾기
+    */
     @PostMapping("/v1/find_username")
     public ResponseEntity<Object> findUsername(@Valid @RequestBody IDRequestDTO dto) {
         return memberService.findUsername(dto);
