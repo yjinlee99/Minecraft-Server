@@ -120,4 +120,38 @@ public class MemberService {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(responseDTO);
     }
+
+    /*
+    * 아이디 중복 체크
+    * 존재하는 아이디면 400 전달
+    * 존재하지 않으면 200
+    * */
+    public ResponseEntity<Object> uesrnameCheck(String username) {
+        Member member = memberRepository.findByUsername(username);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("이미 존재하는 아이디입니다."));
+        }
+    }
+
+    /*
+     * 이메일 중복 체크
+     * 존재하는 이메일이면 400 전달
+     * 존재하지 않으면 200
+     * */
+    public ResponseEntity<Object> emilCheck(String email) {
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("이미 존재하는 이메일입니다."));
+        }
+    }
 }

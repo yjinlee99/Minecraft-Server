@@ -1,12 +1,10 @@
 package com.minecraft.smallminecraft.member.controller;
 
 
-import com.minecraft.smallminecraft.member.dtos.IDRequestDTO;
-import com.minecraft.smallminecraft.member.dtos.JoinDTO;
-import com.minecraft.smallminecraft.member.dtos.PwRequestDTO;
-import com.minecraft.smallminecraft.member.dtos.SetPasswordDTO;
+import com.minecraft.smallminecraft.member.dtos.*;
 import com.minecraft.smallminecraft.member.service.MemberService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +28,22 @@ public class MemberController {
     @PostMapping("/v1/join")
     public ResponseEntity<Object> join(@Valid @RequestBody JoinDTO dto) {
         return memberService.join(dto);
+    }
+
+    /*
+    * 아이디 중복 체크
+    */
+    @PostMapping("/v1/username_check")
+    public ResponseEntity<Object> usernameCheck(@Valid @RequestBody UserCheckRequestDTO dto) {
+        return memberService.uesrnameCheck(dto.getUsername());
+    }
+
+    /*
+    * 이메일 중복 체크
+    */
+    @PostMapping("/v1/email_check")
+    public ResponseEntity<Object> emailCheck(@Valid @RequestBody EmailCheckDTO dto) {
+        return memberService.emilCheck(dto.getEmail());
     }
 
     /*
