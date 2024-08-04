@@ -41,6 +41,13 @@ public class MemberService {
                     .body(new ErrorResponse("이미 존재하는 아이디입니다."));
         }
 
+        member = memberRepository.findByEmail(dto.getEmail());
+
+        if (member != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("이미 존재하는 이메일입니다."));
+        }
+
         Member joinMember = new Member();
         joinMember.setUsername(dto.getUsername());
         joinMember.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
