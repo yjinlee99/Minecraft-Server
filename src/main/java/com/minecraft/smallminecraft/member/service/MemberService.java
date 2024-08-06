@@ -148,11 +148,11 @@ public class MemberService {
     public ResponseEntity<Object> uesrnameCheck(String username) {
         Member member = memberRepository.findByUsername(username);
         if (member == null) {
-            log.info("이미 존재하는 아이디: {}", username);
             return ResponseEntity.status(HttpStatus.OK)
                     .build();
         }
         else {
+            log.info("이미 존재하는 아이디: {}", username);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("이미 존재하는 아이디입니다."));
         }
