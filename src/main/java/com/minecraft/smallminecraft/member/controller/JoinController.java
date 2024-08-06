@@ -1,12 +1,9 @@
 package com.minecraft.smallminecraft.member.controller;
 
-
 import com.minecraft.smallminecraft.member.dtos.*;
 import com.minecraft.smallminecraft.member.service.MemberService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/account")
-public class MemberController {
-
+public class JoinController {
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
+    public JoinController(MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -31,16 +27,16 @@ public class MemberController {
     }
 
     /*
-    * 아이디 중복 체크
-    */
+     * 아이디 중복 체크
+     */
     @PostMapping("/v1/username_check")
     public ResponseEntity<Object> usernameCheck(@Valid @RequestBody UserCheckRequestDTO dto) {
         return memberService.uesrnameCheck(dto.getUsername());
     }
 
     /*
-    * 이메일 중복 체크
-    */
+     * 이메일 중복 체크
+     */
     @PostMapping("/v1/email_check")
     public ResponseEntity<Object> emailCheck(@Valid @RequestBody EmailCheckDTO dto) {
         return memberService.emilCheck(dto.getEmail());
@@ -55,19 +51,11 @@ public class MemberController {
     }
 
     /*
-    * 아이디 찾기
-    */
+     * 아이디 찾기
+     */
     @PostMapping("/v1/find_username")
     public ResponseEntity<Object> findUsername(@Valid @RequestBody IDRequestDTO dto) {
         return memberService.findUsername(dto);
     }
 
-    /*
-     * 비밀번호 변경
-     */
-    @PostMapping("/v1/set_password")
-    public ResponseEntity<Object> setPassword(@Valid @RequestBody SetPasswordDTO dto) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return memberService.setPassword(dto, username);
-    }
 }
