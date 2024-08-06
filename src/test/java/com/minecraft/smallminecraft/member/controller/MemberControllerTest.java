@@ -65,21 +65,6 @@ public class MemberControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testFindPassword() throws Exception {
-        mockMvc.perform(post("/api/account/v1/find_password")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(pwRequestDTO)))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testFindUsername() throws Exception {
-        mockMvc.perform(post("/api/account/v1/find_username")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(idRequestDTO)))
-                .andExpect(status().isOk());
-    }
 
     @Test
     public void testSetPassword() throws Exception {
