@@ -42,20 +42,4 @@ public class JoinController {
         return memberService.emilCheck(dto.getEmail());
     }
 
-    /*
-     * 비밀번호 찾기
-     */
-    @PostMapping("/v1/find_password")
-    public ResponseEntity<Object> findPassword(@Valid @RequestBody PwRequestDTO dto) {
-        return memberService.findPW(dto);
-    }
-
-    /*
-     * 아이디 찾기
-     */
-    @PostMapping("/v1/find_username")
-    public ResponseEntity<Object> findUsername(@Valid @RequestBody IDRequestDTO dto) {
-        return memberService.findUsername(dto);
-    }
-
 }
