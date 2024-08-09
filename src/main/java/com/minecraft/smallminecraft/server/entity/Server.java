@@ -1,5 +1,6 @@
 package com.minecraft.smallminecraft.server.entity;
 
+import com.minecraft.smallminecraft.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +17,10 @@ public class Server {
     private int id;
 
     private String name;
+
     private String data;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", updatable = false)
+    private Member member;
 }
