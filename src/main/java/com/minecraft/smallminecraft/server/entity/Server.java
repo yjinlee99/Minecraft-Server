@@ -18,7 +18,9 @@ public class Server {
 
     private String name;
 
-    private String data;
+    private String mapData;
+
+    private String infoData;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
