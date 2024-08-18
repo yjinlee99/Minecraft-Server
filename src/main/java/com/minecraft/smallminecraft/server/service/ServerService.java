@@ -4,6 +4,8 @@ import com.minecraft.smallminecraft.member.entity.Member;
 import com.minecraft.smallminecraft.member.repository.MemberRepository;
 import com.minecraft.smallminecraft.response.ErrorResponse;
 import com.minecraft.smallminecraft.server.dtos.AddServerDTO;
+import com.minecraft.smallminecraft.server.dtos.AddServerResponseDTO;
+import com.minecraft.smallminecraft.server.dtos.FileInfoDto;
 import com.minecraft.smallminecraft.server.entity.Server;
 import com.minecraft.smallminecraft.server.repository.ServerRepository;
 import jakarta.transaction.Transactional;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Slf4j
@@ -19,9 +22,11 @@ public class ServerService {
 
     private final MemberRepository memberRepository;
     private final ServerRepository serverRepository;
-    public ServerService(MemberRepository memberRepository, ServerRepository serverRepository) {
+    private final FileService fileService;
+    public ServerService(MemberRepository memberRepository, ServerRepository serverRepository, FileService fileService) {
         this.memberRepository = memberRepository;
         this.serverRepository = serverRepository;
+        this.fileService = fileService;
     }
 
     @Transactional
@@ -47,6 +52,19 @@ public class ServerService {
         Server savedServer = serverRepository.save(server);
         log.info("서버 생성 완료 : {}",savedServer.getName());
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        AddServerResponseDTO dto = new AddServerResponseDTO(savedServer.getId());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(dto);
+    }
+
+    public ResponseEntity<Object> updateMap(String username, String servername, MultipartFile file) {
+        FileInfoDto fileInfoDto = fileService.uploadFile(username, servername, file, "map");
+        return null;
+    }
+
+    public ResponseEntity<Object> updateInfo(String username, String servername, MultipartFile file) {
+        FileInfoDto fileInfoDto = fileService.uploadFile(username, servername, file, "info");
+        return null;
     }
 }
