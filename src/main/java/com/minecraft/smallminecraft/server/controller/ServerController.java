@@ -37,4 +37,12 @@ public class ServerController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return serverService.updateInfo(username, servername,file);
     }
+
+    // 서버 삭제
+    @GetMapping("/v1/delete/{name}")
+    public ResponseEntity<Object> UpdateInfo(@PathVariable("name") String servername) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return serverService.deleteServer(username, servername);
+    }
+
 }

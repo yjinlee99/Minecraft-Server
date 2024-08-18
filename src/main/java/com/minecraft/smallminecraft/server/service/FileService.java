@@ -58,4 +58,40 @@ public class FileService {
                     .body(new ErrorResponse("서버 오류로 인한 파일 저장 실패"));
         }
     }
+
+    @Transactional
+    public boolean deleteServer(String username, String servername,  String info) {
+        String fileName = username + "-" +  servername + "-map";
+        Path filePath = Paths.get(uploadDir, fileName);
+
+        try {
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+                log.info("맵파일 삭제 완료: " + fileName);
+            } else {
+                log.info("맵파일이 존재하지 않습니다: " + fileName);
+            }
+        } catch (IOException e) {
+            log.error("파일 삭제 중 오류 발생: " + fileName, e);
+            return false;
+        }
+
+        fileName = username + "-" +  servername + "-info";
+        filePath = Paths.get(uploadDir, fileName);
+
+        try {
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+                log.info("인포 파일 삭제 완료: " + fileName);
+                return true;
+            } else {
+                log.info("인포파일이 존재하지 않습니다: " + fileName);
+            }
+        } catch (IOException e) {
+            log.error("파일 삭제 중 오류 발생: " + fileName, e);
+            return false;
+        }
+
+        return true;
+    }
 }

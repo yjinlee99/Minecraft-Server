@@ -67,4 +67,9 @@ public class ServerService {
     public ResponseEntity<Object> updateInfo(String username, String servername, MultipartFile file) {
         return fileService.uploadFile(username, servername, file, "info");
     }
+
+    public ResponseEntity<Object> deleteServer(String username, String servername) {
+        Boolean result = fileService.deleteServer(username, servername, "map");
+
+    }
 }
