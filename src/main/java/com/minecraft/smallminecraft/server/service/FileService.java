@@ -1,7 +1,11 @@
 package com.minecraft.smallminecraft.server.service;
 
+import com.minecraft.smallminecraft.response.ErrorResponse;
 import com.minecraft.smallminecraft.server.dtos.FileInfoDto;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,14 +15,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
+@Slf4j
 public class FileService {
 
     private final String uploadDir = "C:/User/upload";
 
     @Transactional
-    public FileInfoDto uploadFile(String username, String servername, MultipartFile file, String info) {
-        String originalFileName = file.getOriginalFilename();
-        String mimeType = file.getContentType();
+    public ResponseEntity<Object> uploadFile(String username, String servername, MultipartFile file, String info) {
 
         // 저장 파일명 변경
         String newFileName = username + "-" +  servername + "-" + info;
@@ -29,7 +32,9 @@ public class FileService {
             try {
                 Files.createDirectories(uploadPath);
             } catch (IOException e) {
-                throw new RuntimeException("Could not create upload directory!", e);
+                log.info("upload directory를 만들 수 없습니다.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ErrorResponse("서버 오류로 인한 파일 저장 실패"));
             }
         }
 
@@ -43,10 +48,14 @@ public class FileService {
             fileInfoDto.setNewFileName(newFileName);
             fileInfoDto.setFilePath(filePath.toString());
 
-            return fileInfoDto;
+            log.info("파일 저장 완료");
+            return ResponseEntity.status(HttpStatus.OK)
+                    .build();
 
         } catch (IOException e) {
-            throw new RuntimeException("File upload failed!", e);
+            log.info("서버 오류로 인한 파일 저장 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("서버 오류로 인한 파일 저장 실패"));
         }
     }
 }

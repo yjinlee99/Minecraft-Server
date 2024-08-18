@@ -58,13 +58,13 @@ public class ServerService {
                 .body(dto);
     }
 
+    //맵 파일 저장
     public ResponseEntity<Object> updateMap(String username, String servername, MultipartFile file) {
-        FileInfoDto fileInfoDto = fileService.uploadFile(username, servername, file, "map");
-        return null;
+        return fileService.uploadFile(username, servername, file, "map");
     }
 
+    //info 파일 저장
     public ResponseEntity<Object> updateInfo(String username, String servername, MultipartFile file) {
-        FileInfoDto fileInfoDto = fileService.uploadFile(username, servername, file, "info");
-        return null;
+        return fileService.uploadFile(username, servername, file, "info");
     }
 }

@@ -17,18 +17,21 @@ public class ServerController {
         this.serverService = serverService;
     }
 
+    // 서버 추가
     @PostMapping("/v2/add")
     public ResponseEntity<Object> AddServer(@RequestBody AddServerDTO addServerDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return serverService.addServer(addServerDTO, username);
     }
 
+    // 맵 파일 업데이트
     @PostMapping("/v1/update/map/{name}")
     public ResponseEntity<Object> UpdateMap(@PathVariable("name") String servername, @RequestPart(value= "map")MultipartFile file) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return serverService.updateMap(username, servername,file);
     }
 
+    // info 파일 업데이트
     @PostMapping("/v1/update/info/{name}")
     public ResponseEntity<Object> UpdateInfo(@PathVariable("name") String servername, @RequestPart(value= "info")MultipartFile file) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
