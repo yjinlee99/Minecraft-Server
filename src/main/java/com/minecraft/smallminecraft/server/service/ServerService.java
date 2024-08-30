@@ -60,16 +60,65 @@ public class ServerService {
 
     //맵 파일 저장
     public ResponseEntity<Object> updateMap(String username, String servername, MultipartFile file) {
+        Member member = memberRepository.findByUsername(username);
+        Server server = serverRepository.findByNameAndMember(servername, member);
+        if(server == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("서버가 존재하지 않습니다."));
+        }
         return fileService.uploadFile(username, servername, file, "map");
     }
 
     //info 파일 저장
     public ResponseEntity<Object> updateInfo(String username, String servername, MultipartFile file) {
+        Member member = memberRepository.findByUsername(username);
+        Server server = serverRepository.findByNameAndMember(servername, member);
+        if(server == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("서버가 존재하지 않습니다."));
+        }
         return fileService.uploadFile(username, servername, file, "info");
     }
 
     public ResponseEntity<Object> deleteServer(String username, String servername) {
-        Boolean result = fileService.deleteServer(username, servername, "map");
+        Member member = memberRepository.findByUsername(username);
+        Server server = serverRepository.findByNameAndMember(servername, member);
 
+        if(server == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("서버가 존재하지 않습니다."));
+        }
+
+        boolean result = fileService.deleteServer(username, servername, "map");
+        if(result) {
+            serverRepository.delete(server);
+            log.info("서버 삭제 완료");
+            return ResponseEntity.status(HttpStatus.OK)
+                    .build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("서버 오류로 삭제되지 않았습니다."));
+        }
+    }
+
+    public ResponseEntity<Object> exportMap(String username, String servername) {
+        Member member = memberRepository.findByUsername(username);
+        Server server = serverRepository.findByNameAndMember(servername, member);
+        if(server == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("서버가 존재하지 않습니다."));
+        }
+        return fileService.exportFile(username, servername, "map");
+    }
+
+    public ResponseEntity<Object> exportInfo(String username, String servername) {
+        Member member = memberRepository.findByUsername(username);
+        Server server = serverRepository.findByNameAndMember(servername, member);
+        if(server == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("서버가 존재하지 않습니다."));
+        }
+        return fileService.exportFile(username, servername, "info");
     }
 }

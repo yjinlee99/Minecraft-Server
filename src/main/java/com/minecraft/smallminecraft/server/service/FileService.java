@@ -4,7 +4,11 @@ import com.minecraft.smallminecraft.response.ErrorResponse;
 import com.minecraft.smallminecraft.server.dtos.FileInfoDto;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -93,5 +97,37 @@ public class FileService {
         }
 
         return true;
+    }
+
+    @Transactional
+    public ResponseEntity<Object> exportFile(String username, String servername, String info) {
+        String fileName = username + "-" +  servername + "-" + info;
+
+        Path filePath = Paths.get(uploadDir, fileName);
+
+        if (Files.exists(filePath)) {
+            try {
+                Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+                String contentType = Files.probeContentType(filePath);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"");
+
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentLength(Files.size(filePath))
+                        .contentType(MediaType.parseMediaType(contentType != null ? contentType : "application/octet-stream"))
+                        .body(resource);
+
+            } catch (IOException e) {
+                log.error("파일 내보내기 중 오류 발생: {}", fileName, e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ErrorResponse("파일 내보내기 중 오류 발생"));
+            }
+        } else {
+            log.info("파일이 존재하지 않습니다: {}", fileName);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("파일이 존재하지 않습니다"));
+        }
     }
 }

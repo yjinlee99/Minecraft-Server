@@ -45,4 +45,16 @@ public class ServerController {
         return serverService.deleteServer(username, servername);
     }
 
+    @GetMapping("/v1/export/map/{name}")
+    public ResponseEntity<Object> ExportMap(@PathVariable("name") String servername) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return serverService.exportMap(username, servername);
+    }
+
+    @GetMapping("/v1/export/info/{name}")
+    public ResponseEntity<Object> ExportInfo(@PathVariable("name") String servername) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return serverService.exportInfo(username, servername);
+    }
+
 }
