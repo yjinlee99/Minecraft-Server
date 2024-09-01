@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 public class AddServerDTO {
     @NotBlank
     String servername;
+
+    int seed;
 }

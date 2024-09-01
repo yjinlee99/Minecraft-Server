@@ -48,6 +48,7 @@ public class ServerService {
         Server server = new Server();
         server.setName(addServerDTO.getServername());
         server.setMember(member);
+        server.setSeed(addServerDTO.getSeed());
 
         Server savedServer = serverRepository.save(server);
         log.info("서버 생성 완료 : {}",savedServer.getName());

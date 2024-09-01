@@ -21,4 +21,6 @@ public class Server {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
     private Member member;
+
+    private int seed;
 }
