@@ -1,6 +1,7 @@
-package com.minecraft.smallminecraft.server.entity;
+package com.minecraft.smallminecraft.order.entity;
 
 import com.minecraft.smallminecraft.member.entity.Member;
+import com.minecraft.smallminecraft.store.entity.Item;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,17 +11,24 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Server {
+public class Orders {
+
     @Id
-    @Column(name = "item_id")
+    @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private int price;
+
+    private int receipt_id;
+
+    private String status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id", updatable = false)
+    private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
     private Member member;
-
-    private int seed;
 }

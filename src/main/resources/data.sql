@@ -1,6 +1,6 @@
 insert into store (store_id, name, img, price)
-values (1,'Peach Girl','https://www.minecraftskins.net/static/preview/peachgirl.png',1);
+values (1,'Peach Girl','https://www.minecraftskins.net/static/preview/peachgirl.png',100);
 insert into store (store_id, name, img, price)
-values (2,'Peach Girl','https://www.minecraftskins.net/static/preview/peachgirl.png',1);
+values (2,'Peach Girl','https://www.minecraftskins.net/static/preview/peachgirl.png',100);
 insert into store (store_id, name, img, price)
-values (3,'Peach Girl','https://www.minecraftskins.net/static/preview/peachgirl.png',1);
+values (3,'Peach Girl','https://www.minecraftskins.net/static/preview/peachgirl.png',100);

@@ -1,6 +1,6 @@
 package com.minecraft.smallminecraft.store.controller;
 
-import com.minecraft.smallminecraft.store.service.StoreService;
+import com.minecraft.smallminecraft.store.service.ItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/store")
-public class StoreController {
-    private final StoreService storeService;
+public class ItemController {
+    private final ItemService itemService;
 
-    public StoreController(StoreService storeService) {
-        this.storeService = storeService;
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
     }
 
     @GetMapping
     public ResponseEntity<Object> showList() {
-        return storeService.showList();
+        return itemService.showList();
     }
 }

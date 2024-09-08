@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Store {
+public class Item {
 
     @Id
     @Column(name = "store_id")

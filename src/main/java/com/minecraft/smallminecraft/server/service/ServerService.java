@@ -5,13 +5,11 @@ import com.minecraft.smallminecraft.member.repository.MemberRepository;
 import com.minecraft.smallminecraft.response.ErrorResponse;
 import com.minecraft.smallminecraft.server.dtos.AddServerDTO;
 import com.minecraft.smallminecraft.server.dtos.AddServerResponseDTO;
-import com.minecraft.smallminecraft.server.dtos.FileInfoDto;
 import com.minecraft.smallminecraft.server.entity.Server;
 import com.minecraft.smallminecraft.server.repository.ServerRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +49,7 @@ public class ServerService {
         server.setSeed(addServerDTO.getSeed());
 
         Server savedServer = serverRepository.save(server);
-        log.info("서버 생성 완료 : {}",savedServer.getName());
+        log.info("서버 생성 완료 : {}", savedServer.getName());
 
         AddServerResponseDTO dto = new AddServerResponseDTO(savedServer.getId());
 
