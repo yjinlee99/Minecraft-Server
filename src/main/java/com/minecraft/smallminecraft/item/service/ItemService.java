@@ -1,7 +1,7 @@
-package com.minecraft.smallminecraft.store.service;
+package com.minecraft.smallminecraft.item.service;
 
-import com.minecraft.smallminecraft.store.entity.Item;
-import com.minecraft.smallminecraft.store.repository.ItemRepository;
+import com.minecraft.smallminecraft.item.entity.Item;
+import com.minecraft.smallminecraft.item.repository.ItemRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

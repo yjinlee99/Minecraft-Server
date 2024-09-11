@@ -28,4 +28,9 @@ public class OrderController {
     public ResponseEntity<Object> verifyOrder(@RequestBody OrderVerifyRequest request) {
         return orderService.verifyOrder(request);
     }
+
+    @PostMapping("/v1/approve")
+    public ResponseEntity<Object> approveOrder(@RequestBody OrderVerifyRequest request) {
+        return orderService.approveOrder(request);
+    }
 }

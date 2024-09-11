@@ -1,7 +1,7 @@
 package com.minecraft.smallminecraft.order.entity;
 
 import com.minecraft.smallminecraft.member.entity.Member;
-import com.minecraft.smallminecraft.store.entity.Item;
+import com.minecraft.smallminecraft.item.entity.Item;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class Orders {
 
     private int price;
 
-    private int receipt_id;
+    private String receipt_id;
 
     private String status;
 

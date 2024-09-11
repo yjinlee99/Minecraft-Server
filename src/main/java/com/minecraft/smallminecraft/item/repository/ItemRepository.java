@@ -1,6 +1,6 @@
-package com.minecraft.smallminecraft.store.repository;
+package com.minecraft.smallminecraft.item.repository;
 
-import com.minecraft.smallminecraft.store.entity.Item;
+import com.minecraft.smallminecraft.item.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

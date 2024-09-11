@@ -1,6 +1,6 @@
-package com.minecraft.smallminecraft.store.controller;
+package com.minecraft.smallminecraft.item.controller;
 
-import com.minecraft.smallminecraft.store.service.ItemService;
+import com.minecraft.smallminecraft.item.service.ItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

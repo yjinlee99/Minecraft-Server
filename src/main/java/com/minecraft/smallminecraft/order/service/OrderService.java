@@ -8,8 +8,8 @@ import com.minecraft.smallminecraft.order.dtos.OrderVerifyRequest;
 import com.minecraft.smallminecraft.order.entity.Orders;
 import com.minecraft.smallminecraft.order.repository.OrderRepository;
 import com.minecraft.smallminecraft.response.ErrorResponse;
-import com.minecraft.smallminecraft.store.entity.Item;
-import com.minecraft.smallminecraft.store.repository.ItemRepository;
+import com.minecraft.smallminecraft.item.entity.Item;
+import com.minecraft.smallminecraft.item.repository.ItemRepository;
 import jakarta.transaction.Transactional;
 import kr.co.bootpay.Bootpay;
 import lombok.extern.slf4j.Slf4j;
@@ -62,9 +62,10 @@ public class OrderService {
     @Transactional
     public ResponseEntity<Object> verifyOrder(OrderVerifyRequest request) {
         try {
-            Bootpay bootpay = new Bootpay("66d43bf5cc5274a3ac3fc172", "19mT78DxgT4aeNVZxxUTYjVjzttWHPOfJZLMukq3Iak=");
+            Bootpay bootpay = new Bootpay("66d43bf5cc5274a3ac3fc172", "j5dSuJPHGa//ScsqKw302qbic7W5ZMVTg2mmOon8izg=");
             HashMap token = bootpay.getAccessToken();
             if(token.get("error_code") != null) { //failed
+                log.info((String) token.get("error_code"));
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(new ErrorResponse("토큰을 발급할 수 없습니다."));
             }
@@ -76,20 +77,54 @@ public class OrderService {
                 System.out.println("confirm false: " + res);
             }
 
-            Orders order = orderRepository.findById((Long)res.get("order_id")).orElse(null);
+            // `order_id`를 String으로 먼저 가져옴
+            String orderIdString = (String) res.get("order_id");
+
+            // String을 Long으로 변환
+            Long orderId = Long.parseLong(orderIdString);
+
+            Orders order = orderRepository.findById(orderId).orElse(null);
 
             if(order == null) {
                 log.info("주문이 존재하지 않습니다.");
             }
 
             order.setStatus("결제완료");
+            order.setReceipt_id(request.getReceipt_id());
 
             return ResponseEntity.status(HttpStatus.OK)
                     .build();
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("통신오류"));
+                    .body(new ErrorResponse("서버 오류: "+e));
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<Object> approveOrder(OrderVerifyRequest request) {
+        try {
+            Bootpay bootpay = new Bootpay("66d43bf5cc5274a3ac3fc172", "j5dSuJPHGa//ScsqKw302qbic7W5ZMVTg2mmOon8izg=");
+            HashMap token = bootpay.getAccessToken();
+            if(token.get("error_code") != null) { //failed
+                log.info((String) token.get("error_code"));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ErrorResponse("토큰을 발급할 수 없습니다."));
+            }
+            String receiptId = request.getReceipt_id();
+            HashMap res = bootpay.confirm(receiptId);
+            if(res.get("error_code") == null) { //success
+                System.out.println("confirm success: " + res);
+                return ResponseEntity.status(HttpStatus.OK)
+                        .build();
+            } else {
+                System.out.println("confirm false: " + res);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ErrorResponse("승인 중 오류 발생"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("승인 중 오류 발생"));
         }
     }
 }

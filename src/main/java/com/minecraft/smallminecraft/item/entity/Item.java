@@ -1,4 +1,4 @@
-package com.minecraft.smallminecraft.store.entity;
+package com.minecraft.smallminecraft.item.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Item {
 
     @Id
-    @Column(name = "store_id")
+    @Column(name = "item_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
