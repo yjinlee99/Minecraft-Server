@@ -1,5 +1,6 @@
 package com.minecraft.smallminecraft.order.controller;
 
+import com.minecraft.smallminecraft.order.dtos.OrderApproveRequest;
 import com.minecraft.smallminecraft.order.dtos.OrderRequest;
 import com.minecraft.smallminecraft.order.dtos.OrderVerifyRequest;
 import com.minecraft.smallminecraft.order.service.OrderService;
@@ -30,7 +31,8 @@ public class OrderController {
     }
 
     @PostMapping("/v1/approve")
-    public ResponseEntity<Object> approveOrder(@RequestBody OrderVerifyRequest request) {
-        return orderService.approveOrder(request);
+    public ResponseEntity<Object> approveOrder(@RequestBody OrderApproveRequest request) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return orderService.approveOrder(request, username);
     }
 }

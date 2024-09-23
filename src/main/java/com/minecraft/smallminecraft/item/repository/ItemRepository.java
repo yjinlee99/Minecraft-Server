@@ -10,4 +10,5 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     public List<Item> findAll();
+    public Item findByName(String name);
 }
