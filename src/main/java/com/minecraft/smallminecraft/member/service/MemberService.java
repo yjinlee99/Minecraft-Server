@@ -176,4 +176,18 @@ public class MemberService {
                     .body(new ErrorResponse("이미 존재하는 이메일입니다."));
         }
     }
+
+    public ResponseEntity<Object> exportSkin(String username) {
+        Member member = memberRepository.findByUsername(username);
+        String skinName;
+        if(member.getItem() == null) {
+            skinName = null;
+        } else {
+            skinName = member.getItem().getName();
+        }
+
+        ExportSkinResponseDTO dto = new ExportSkinResponseDTO(skinName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(dto);
+    }
 }
