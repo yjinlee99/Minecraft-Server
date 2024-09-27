@@ -1,5 +1,6 @@
 package com.minecraft.smallminecraft.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minecraft.smallminecraft.member.entity.Member;
 import com.minecraft.smallminecraft.item.entity.Item;
 import jakarta.persistence.*;
@@ -26,9 +27,11 @@ public class Orders {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", updatable = false)
+    @JsonIgnore // 순환 참조 방지
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
+    @JsonIgnore // 순환 참조 방지
     private Member member;
 }

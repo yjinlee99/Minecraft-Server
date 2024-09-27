@@ -2,6 +2,7 @@ package com.minecraft.smallminecraft.item.controller;
 
 import com.minecraft.smallminecraft.item.service.ItemService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<Object> showList() {
-        return itemService.showList();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return itemService.showList(username);
     }
 }

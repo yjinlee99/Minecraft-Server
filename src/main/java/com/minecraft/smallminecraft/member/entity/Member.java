@@ -44,7 +44,8 @@ public class Member {
     private List<Server> servers = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", updatable = false)
+    @JoinColumn(name = "item_id")
+    @JsonIgnore // 순환 참조 방지
     private Item item;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")

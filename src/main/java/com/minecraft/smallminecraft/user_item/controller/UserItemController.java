@@ -22,7 +22,7 @@ public class UserItemController {
         return userItemService.getMySkins(username);
     }
 
-    @PostMapping
+    @PostMapping("/select")
     public ResponseEntity<Object> selectSkin(@RequestBody SelectSkinRequestDTO selectSkinRequestDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userItemService.selectSkin(selectSkinRequestDTO, username);
